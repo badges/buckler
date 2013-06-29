@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>Buckler</title>
+  </head>
+  <body>
+    <img src="/v1?v=buckler&s=⛨&c=yellowgreen"><br/>
+    <img id='test' src="/v1?v=play&s=here&c=yellow">
+    <form onsubmit="return setTest()">
+      <input type="text" id="v">
+      <input type="text" id="s">
+      <input type="text" id="c">
+      <button>go</button>
+    </form>
+    <script>
+      function setTest() {
+        var v = document.getElementById('v').value;
+        var s = document.getElementById('s').value;
+        var c = document.getElementById('c').value;
+
+        var src = ['/v1?v=', v, '&s=', s, '&c=', c].join('');
+        document.getElementById('test').setAttribute('src', src);
+        return false;
+      }
+    </script>
+  </body>
+</html>
+
