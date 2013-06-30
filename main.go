@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"fmt"
 	"log"
 	"net/http"
 )
@@ -21,9 +20,10 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	ip := os.Getenv("OPENSHIFT_INTERNAL_IP")
+	ip := os.Getenv("HOST")
+	port := os.Getenv("PORT")
 	http.HandleFunc("/v1", buckle)
 	http.HandleFunc("/", index)
-	log.Println("Listening on port 8080");
-	http.ListenAndServe(fmt.Sprintf("%s:8080", ip), nil)
+	log.Println("Listening on port", port);
+	http.ListenAndServe(ip + ":" + port, nil)
 }
