@@ -12,7 +12,7 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 
 	// arg validation goes here
 	d := Data{q["v"][0], q["s"][0], q["c"][0]}
-	makeShield(w, d)
+	makePngShield(w, d)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
