@@ -13,6 +13,18 @@ import (
 	"code.google.com/p/freetype-go/freetype"
 )
 
+var (
+	Gray        = color.RGBA{74, 74, 74, 255}
+	BrightGreen = color.RGBA{69, 203, 20, 255}
+	Green       = color.RGBA{124, 166, 0, 255}
+	YellowGreen = color.RGBA{156, 158, 9, 255}
+	Yellow      = color.RGBA{184, 148, 19, 255}
+	Orange      = color.RGBA{184, 113, 37, 255}
+	Red         = color.RGBA{186, 77, 56, 255}
+	LightGray   = color.RGBA{131, 131, 131, 255}
+	Blue        = color.RGBA{0, 126, 198, 255}
+)
+
 func makePngShield(w http.ResponseWriter, d Data) {
 	w.Header().Add("content-type", "image/png")
 
@@ -45,12 +57,10 @@ func makePngShield(w http.ResponseWriter, d Data) {
 	draw.Draw(mask, r, edge, sr.Min, draw.Src)
 
 	img := image.NewRGBA(image.Rect(0, 0, 100, 19))
-	right := color.RGBA{69, 203, 20, 255}
-	draw.Draw(img, img.Bounds(), &image.Uniform{right}, image.ZP, draw.Src)
+	draw.Draw(img, img.Bounds(), &image.Uniform{Blue}, image.ZP, draw.Src)
 
-	left := color.RGBA{79, 79, 79, 255}
 	rect := image.Rect(0, 0, 50, 19)
-	draw.Draw(img, rect, &image.Uniform{left}, image.ZP, draw.Src)
+	draw.Draw(img, rect, &image.Uniform{Gray}, image.ZP, draw.Src)
 
 	dst := image.NewRGBA(image.Rect(0, 0, 100, 19))
 	draw.DrawMask(dst, dst.Bounds(), img, image.ZP, mask, image.ZP, draw.Over)
