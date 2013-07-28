@@ -5,8 +5,12 @@ import (
 	"image/color"
 	"image/draw"
 	"image/png"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
+
+	"code.google.com/p/freetype-go/freetype"
 )
 
 func makePngShield(w http.ResponseWriter, d Data) {
@@ -44,5 +48,31 @@ func makePngShield(w http.ResponseWriter, d Data) {
 
 	dst := image.NewRGBA(image.Rect(0, 0, 100, 19))
 	draw.DrawMask(dst, dst.Bounds(), img, image.ZP, mask, image.ZP, draw.Over)
+
+	fontBytes, err := ioutil.ReadFile("opensanssemibold.ttf")
+	if err != nil {
+		log.Println(err)
+	}
+
+	font, err := freetype.ParseFont(fontBytes)
+	if err != nil {
+		log.Println(err)
+	}
+
+	c := freetype.NewContext()
+	c.SetDPI(72)
+	c.SetFont(font)
+	c.SetFontSize(10)
+	c.SetDst(dst)
+	c.SetClip(dst.Bounds())
+	c.SetSrc(image.White)
+
+	pt := freetype.Pt(6, 13)
+	offset, _ := c.DrawString("build", pt)
+
+	pt = freetype.Pt(53, 13)
+	c.DrawString("passing", pt)
+
+	println(offset.X, offset.Y)
 	png.Encode(w, dst)
 }
