@@ -18,6 +18,12 @@ func makePngShield(w http.ResponseWriter, d Data) {
 
 	fi, _ := os.Open("edge.png")
 	edge, _ := png.Decode(fi)
+	defer fi.Close()
+
+	fi, _ = os.Open("gradient.png")
+	gradient, _ := png.Decode(fi)
+	defer fi.Close()
+
 	mask := image.NewRGBA(image.Rect(0, 0, 100, 19))
 	draw.Draw(mask, edge.Bounds(), edge, image.ZP, draw.Src)
 
@@ -48,6 +54,25 @@ func makePngShield(w http.ResponseWriter, d Data) {
 
 	dst := image.NewRGBA(image.Rect(0, 0, 100, 19))
 	draw.DrawMask(dst, dst.Bounds(), img, image.ZP, mask, image.ZP, draw.Over)
+
+	draw.Draw(dst, gradient.Bounds(), gradient, image.ZP, draw.Over)
+
+	gsr := image.Rect(2, 0, 3, 19)
+	for i := 3; i <= 97; i++ {
+		dp := image.Point{i, 0}
+		gr := gsr.Sub(gsr.Min).Add(dp)
+		draw.Draw(dst, gr, gradient, gsr.Min, draw.Over)
+	}
+
+	sr = image.Rect(0, 0, 1, 19)
+	dp = image.Point{99, 0}
+	r = sr.Sub(sr.Min).Add(dp)
+	draw.Draw(dst, r, gradient, sr.Min, draw.Over)
+
+	sr = image.Rect(1, 0, 2, 19)
+	dp = image.Point{98, 0}
+	r = sr.Sub(sr.Min).Add(dp)
+	draw.Draw(dst, r, gradient, sr.Min, draw.Over)
 
 	fontBytes, err := ioutil.ReadFile("opensanssemibold.ttf")
 	if err != nil {
