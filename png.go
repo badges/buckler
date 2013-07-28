@@ -68,10 +68,10 @@ func makePngShield(w http.ResponseWriter, d Data) {
 	c.SetSrc(image.White)
 
 	pt := freetype.Pt(6, 13)
-	offset, _ := c.DrawString("build", pt)
+	offset, _ := c.DrawString(d.Vendor, pt)
 
 	pt = freetype.Pt(53, 13)
-	c.DrawString("passing", pt)
+	c.DrawString(d.Status, pt)
 
 	println(offset.X, offset.Y)
 	png.Encode(w, dst)
