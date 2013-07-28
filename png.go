@@ -65,10 +65,19 @@ func makePngShield(w http.ResponseWriter, d Data) {
 	c.SetFontSize(10)
 	c.SetDst(dst)
 	c.SetClip(dst.Bounds())
+
+	shadow := color.RGBA{0, 0, 0, 125}
+	c.SetSrc(&image.Uniform{shadow})
+	pt := freetype.Pt(6, 14)
+	offset, _ := c.DrawString(d.Vendor, pt)
+
+	pt = freetype.Pt(53, 14)
+	c.DrawString(d.Status, pt)
+
 	c.SetSrc(image.White)
 
-	pt := freetype.Pt(6, 13)
-	offset, _ := c.DrawString(d.Vendor, pt)
+	pt = freetype.Pt(6, 13)
+	offset, _ = c.DrawString(d.Vendor, pt)
 
 	pt = freetype.Pt(53, 13)
 	c.DrawString(d.Status, pt)
