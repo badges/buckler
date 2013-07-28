@@ -1,19 +1,17 @@
 package main
 
-
 import (
-	"text/template"
 	"net/http"
+	"text/template"
 )
 
 type Data struct {
 	Vendor string
 	Status string
-	Color string
+	Color  string
 }
 
-
-func makeShield (w http.ResponseWriter, d Data) {
+func makeShield(w http.ResponseWriter, d Data) {
 	w.Header().Add("content-type", "image/svg+xml")
 
 	t := template.Must(template.New("svg").ParseFiles("tmpl/shield.svg"))

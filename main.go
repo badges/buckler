@@ -1,9 +1,9 @@
 package main
 
 import (
-	"os"
 	"log"
 	"net/http"
+	"os"
 )
 
 func buckle(w http.ResponseWriter, r *http.Request) {
@@ -24,6 +24,6 @@ func main() {
 	port := os.Getenv("PORT")
 	http.HandleFunc("/v1", buckle)
 	http.HandleFunc("/", index)
-	log.Println("Listening on port", port);
-	http.ListenAndServe(ip + ":" + port, nil)
+	log.Println("Listening on port", port)
+	http.ListenAndServe(ip+":"+port, nil)
 }
