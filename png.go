@@ -11,6 +11,7 @@ import (
 	"os"
 
 	"code.google.com/p/freetype-go/freetype"
+	"code.google.com/p/freetype-go/freetype/truetype"
 )
 
 type Data struct {
@@ -41,22 +42,40 @@ var (
 		"lightgray":   LightGray,
 		"blue":        Blue,
 	}
+
+	edge image.Image
+	gradient image.Image
+	font *truetype.Font
 )
 
 const (
 	h = 18
 )
 
-func makePngShield(w http.ResponseWriter, d Data) {
-	w.Header().Add("content-type", "image/png")
+func init() {
+	log.Println("Initializing png");
 
 	fi, _ := os.Open("edge.png")
-	edge, _ := png.Decode(fi)
+	edge, _ = png.Decode(fi)
 	defer fi.Close()
 
 	fi, _ = os.Open("gradient.png")
-	gradient, _ := png.Decode(fi)
+	gradient, _ = png.Decode(fi)
 	defer fi.Close()
+
+	fontBytes, err := ioutil.ReadFile("opensanssemibold.ttf")
+	if err != nil {
+		log.Println(err)
+	}
+
+	font, err = freetype.ParseFont(fontBytes)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func makePngShield(w http.ResponseWriter, d Data) {
+	w.Header().Add("content-type", "image/png")
 
 	mask := image.NewRGBA(image.Rect(0, 0, 100, h))
 	draw.Draw(mask, edge.Bounds(), edge, image.ZP, draw.Src)
@@ -106,16 +125,6 @@ func makePngShield(w http.ResponseWriter, d Data) {
 	r = sr.Sub(sr.Min).Add(dp)
 	draw.Draw(dst, r, gradient, sr.Min, draw.Over)
 
-	fontBytes, err := ioutil.ReadFile("opensanssemibold.ttf")
-	if err != nil {
-		log.Println(err)
-	}
-
-	font, err := freetype.ParseFont(fontBytes)
-	if err != nil {
-		log.Println(err)
-	}
-
 	c := freetype.NewContext()
 	c.SetDPI(72)
 	c.SetFont(font)
@@ -126,7 +135,7 @@ func makePngShield(w http.ResponseWriter, d Data) {
 	shadow := color.RGBA{0, 0, 0, 125}
 	c.SetSrc(&image.Uniform{shadow})
 	pt := freetype.Pt(6, 13)
-	offset, _ := c.DrawString(d.Vendor, pt)
+	c.DrawString(d.Vendor, pt)
 
 	pt = freetype.Pt(53, 13)
 	c.DrawString(d.Status, pt)
@@ -134,11 +143,10 @@ func makePngShield(w http.ResponseWriter, d Data) {
 	c.SetSrc(image.White)
 
 	pt = freetype.Pt(6, 12)
-	offset, _ = c.DrawString(d.Vendor, pt)
+	c.DrawString(d.Vendor, pt)
 
 	pt = freetype.Pt(53, 12)
 	c.DrawString(d.Status, pt)
 
-	println(offset.X, offset.Y)
 	png.Encode(w, dst)
 }
