@@ -13,6 +13,12 @@ import (
 	"code.google.com/p/freetype-go/freetype"
 )
 
+type Data struct {
+	Vendor string
+	Status string
+	Color  color.RGBA
+}
+
 var (
 	Gray        = color.RGBA{74, 74, 74, 255}
 	BrightGreen = color.RGBA{69, 203, 20, 255}
@@ -23,6 +29,18 @@ var (
 	Red         = color.RGBA{186, 77, 56, 255}
 	LightGray   = color.RGBA{131, 131, 131, 255}
 	Blue        = color.RGBA{0, 126, 198, 255}
+
+	Colors = map[string]color.RGBA{
+		"gray":        Gray,
+		"brightgreen": BrightGreen,
+		"green":       Green,
+		"yellowgreen": YellowGreen,
+		"yellow":      Yellow,
+		"orange":      Orange,
+		"red":         Red,
+		"lightgray":   LightGray,
+		"blue":        Blue,
+	}
 )
 
 const (
@@ -61,7 +79,7 @@ func makePngShield(w http.ResponseWriter, d Data) {
 	draw.Draw(mask, r, edge, sr.Min, draw.Src)
 
 	img := image.NewRGBA(image.Rect(0, 0, 100, h))
-	draw.Draw(img, img.Bounds(), &image.Uniform{Blue}, image.ZP, draw.Src)
+	draw.Draw(img, img.Bounds(), &image.Uniform{d.Color}, image.ZP, draw.Src)
 
 	rect := image.Rect(0, 0, 50, h)
 	draw.Draw(img, rect, &image.Uniform{Gray}, image.ZP, draw.Src)
