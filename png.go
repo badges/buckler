@@ -35,11 +35,12 @@ func makePngShield (w http.ResponseWriter, d Data) {
 	draw.Draw(mask, r, edge, sr.Min, draw.Src);
 
 	img := image.NewRGBA(image.Rect(0, 0, 100, 19));
-	blue := color.RGBA{0, 0, 255, 255};
-    draw.Draw(img, img.Bounds(), &image.Uniform{blue}, image.ZP, draw.Src);
-	red := color.RGBA{255, 0, 0, 255};
+	right := color.RGBA{69, 203, 20, 255};
+	draw.Draw(img, img.Bounds(), &image.Uniform{right}, image.ZP, draw.Src);
+
+	left := color.RGBA{79, 79, 79, 255};
 	rect := image.Rect(0, 0, 50, 19);
-    draw.Draw(img, rect, &image.Uniform{red}, image.ZP, draw.Src);
+	draw.Draw(img, rect, &image.Uniform{left}, image.ZP, draw.Src);
 
 
 	dst := image.NewRGBA(image.Rect(0, 0, 100, 19));
