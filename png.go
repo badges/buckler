@@ -25,6 +25,10 @@ var (
 	Blue        = color.RGBA{0, 126, 198, 255}
 )
 
+const (
+	h = 18
+)
+
 func makePngShield(w http.ResponseWriter, d Data) {
 	w.Header().Add("content-type", "image/png")
 
@@ -36,50 +40,50 @@ func makePngShield(w http.ResponseWriter, d Data) {
 	gradient, _ := png.Decode(fi)
 	defer fi.Close()
 
-	mask := image.NewRGBA(image.Rect(0, 0, 100, 19))
+	mask := image.NewRGBA(image.Rect(0, 0, 100, h))
 	draw.Draw(mask, edge.Bounds(), edge, image.ZP, draw.Src)
 
-	sr := image.Rect(2, 0, 3, 19)
+	sr := image.Rect(2, 0, 3, h)
 	for i := 3; i <= 97; i++ {
 		dp := image.Point{i, 0}
 		r := sr.Sub(sr.Min).Add(dp)
 		draw.Draw(mask, r, edge, sr.Min, draw.Src)
 	}
 
-	sr = image.Rect(0, 0, 1, 19)
+	sr = image.Rect(0, 0, 1, h)
 	dp := image.Point{99, 0}
 	r := sr.Sub(sr.Min).Add(dp)
 	draw.Draw(mask, r, edge, sr.Min, draw.Src)
 
-	sr = image.Rect(1, 0, 2, 19)
+	sr = image.Rect(1, 0, 2, h)
 	dp = image.Point{98, 0}
 	r = sr.Sub(sr.Min).Add(dp)
 	draw.Draw(mask, r, edge, sr.Min, draw.Src)
 
-	img := image.NewRGBA(image.Rect(0, 0, 100, 19))
+	img := image.NewRGBA(image.Rect(0, 0, 100, h))
 	draw.Draw(img, img.Bounds(), &image.Uniform{Blue}, image.ZP, draw.Src)
 
-	rect := image.Rect(0, 0, 50, 19)
+	rect := image.Rect(0, 0, 50, h)
 	draw.Draw(img, rect, &image.Uniform{Gray}, image.ZP, draw.Src)
 
-	dst := image.NewRGBA(image.Rect(0, 0, 100, 19))
+	dst := image.NewRGBA(image.Rect(0, 0, 100, h))
 	draw.DrawMask(dst, dst.Bounds(), img, image.ZP, mask, image.ZP, draw.Over)
 
 	draw.Draw(dst, gradient.Bounds(), gradient, image.ZP, draw.Over)
 
-	gsr := image.Rect(2, 0, 3, 19)
+	gsr := image.Rect(2, 0, 3, h)
 	for i := 3; i <= 97; i++ {
 		dp := image.Point{i, 0}
 		gr := gsr.Sub(gsr.Min).Add(dp)
 		draw.Draw(dst, gr, gradient, gsr.Min, draw.Over)
 	}
 
-	sr = image.Rect(0, 0, 1, 19)
+	sr = image.Rect(0, 0, 1, h)
 	dp = image.Point{99, 0}
 	r = sr.Sub(sr.Min).Add(dp)
 	draw.Draw(dst, r, gradient, sr.Min, draw.Over)
 
-	sr = image.Rect(1, 0, 2, 19)
+	sr = image.Rect(1, 0, 2, h)
 	dp = image.Point{98, 0}
 	r = sr.Sub(sr.Min).Add(dp)
 	draw.Draw(dst, r, gradient, sr.Min, draw.Over)
@@ -103,18 +107,18 @@ func makePngShield(w http.ResponseWriter, d Data) {
 
 	shadow := color.RGBA{0, 0, 0, 125}
 	c.SetSrc(&image.Uniform{shadow})
-	pt := freetype.Pt(6, 14)
+	pt := freetype.Pt(6, 13)
 	offset, _ := c.DrawString(d.Vendor, pt)
 
-	pt = freetype.Pt(53, 14)
+	pt = freetype.Pt(53, 13)
 	c.DrawString(d.Status, pt)
 
 	c.SetSrc(image.White)
 
-	pt = freetype.Pt(6, 13)
+	pt = freetype.Pt(6, 12)
 	offset, _ = c.DrawString(d.Vendor, pt)
 
-	pt = freetype.Pt(53, 13)
+	pt = freetype.Pt(53, 12)
 	c.DrawString(d.Status, pt)
 
 	println(offset.X, offset.Y)
