@@ -23,26 +23,30 @@ type Data struct {
 }
 
 var (
-	Gray        = color.RGBA{74, 74, 74, 255}
+	Grey        = color.RGBA{74, 74, 74, 255}
 	BrightGreen = color.RGBA{69, 203, 20, 255}
 	Green       = color.RGBA{124, 166, 0, 255}
 	YellowGreen = color.RGBA{156, 158, 9, 255}
 	Yellow      = color.RGBA{184, 148, 19, 255}
 	Orange      = color.RGBA{184, 113, 37, 255}
 	Red         = color.RGBA{186, 77, 56, 255}
-	LightGray   = color.RGBA{131, 131, 131, 255}
+	LightGrey   = color.RGBA{131, 131, 131, 255}
 	Blue        = color.RGBA{0, 126, 198, 255}
 
 	Colors = map[string]color.RGBA{
-		"gray":        Gray,
+		"grey":        Grey,
 		"brightgreen": BrightGreen,
 		"green":       Green,
 		"yellowgreen": YellowGreen,
 		"yellow":      Yellow,
 		"orange":      Orange,
 		"red":         Red,
-		"lightgray":   LightGray,
+		"lightgrey":   LightGrey,
 		"blue":        Blue,
+
+		// US spelling
+		"gray":      Grey,
+		"lightgray": LightGrey,
 	}
 
 	shadow = color.RGBA{0, 0, 0, 125}
@@ -142,7 +146,7 @@ func makePngShield(w http.ResponseWriter, d Data) {
 	draw.Draw(img, img.Bounds(), &image.Uniform{d.Color}, image.ZP, draw.Src)
 
 	rect := image.Rect(0, 0, op+vw+ip, h)
-	draw.Draw(img, rect, &image.Uniform{Gray}, image.ZP, draw.Src)
+	draw.Draw(img, rect, &image.Uniform{Grey}, image.ZP, draw.Src)
 
 	dst := image.NewRGBA(image.Rect(0, 0, imageWidth, h))
 	draw.DrawMask(dst, dst.Bounds(), img, image.ZP, mask, image.ZP, draw.Over)
