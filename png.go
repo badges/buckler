@@ -55,7 +55,7 @@ var (
 
 const (
 	h  = 18
-	op = 6
+	op = 4
 	ip = 4
 )
 
@@ -70,7 +70,7 @@ func init() {
 	gradient, _ = png.Decode(fi)
 	defer fi.Close()
 
-	fontBytes, err := ioutil.ReadFile("opensanssemibold.ttf")
+	fontBytes, err := ioutil.ReadFile("opensansbold.ttf")
 	if err != nil {
 		log.Println(err)
 	}
