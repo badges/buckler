@@ -20,9 +20,15 @@ Buckler tries to make creating shields easy. Each shield request is a url that h
 - colour
 
 Parts are separated by a hyphen. The request is suffixed by `.png` and prefixed with the Buckler host and API version, likely
-`b.repl.ca/v1/`.
+`b.repl.ca/v1/`. Requests will take the form: `http://b.repl.ca/v1/$SUBJECT-$STATUS-$COLOR.png`
 
 ## Examples
+
+- http://b.repl.ca/v1/build-passing-brightgreen.png ⇨ ![](http://b.repl.ca/v1/build-passing-brightgreen.png)
+- http://b.repl.ca/v1/downloads-3.4K-blue.png ⇨ ![](http://b.repl.ca/v1/downloads-3.4K-blue.png)
+- http://b.repl.ca/v1/coverage-unknown-lightgrey.png ⇨ ![](http://b.repl.ca/v1/coverage-unknown-lightgrey.png)
+- http://b.repl.ca/v1/review-NACKED-red.png ⇨ ![](http://b.repl.ca/v1/review-NACKED-red.png)
+
 
 ## Valid colours
 
