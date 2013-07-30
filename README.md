@@ -4,3 +4,59 @@
 [![Buckler Shield](http://b.repl.ca/v1/use-buckler-blue.png)](http://buckler.repl.ca)
 [![Get Hype](http://b.repl.ca/v1/GET-HYPE!-orange.png)](http://buckler.repl.ca)
 ![MIT License](http://b.repl.ca/v1/License-MIT-red.png)
+
+Buckler is [Shields](https://github.com/olivierlacan/shields) as a Service (Shaas, or alternatively, Badges as a Service)
+for use in GitHub READMEs, or anywhere else. Use buckler with your favorite continuous integration tool, performance
+monitoring service API, or ridiculous in-joke to surface information.
+
+Buckler is available hosted at [b.repl.ca](http://buckler.repl.ca). YOu may use the [API](#API) to generate shields at runtime,
+pregenerate them and host them on your own service, or run your own copy of Buckler to protect important company secrets.
+
+# API
+
+Buckler tries to make creating shields easy. Each shield request is a url that has three parts:
+- subject
+- status
+- colour
+
+Parts are separated by a hyphen. The request is suffixed by `.png` and prefixed with the Buckler host and API version, likely
+`b.repl.ca/v1/`.
+
+## Examples
+
+## Valid colours
+
+- brightgreen
+- green
+- yellowgreen
+- yellow
+- orange
+- red
+- grey
+- lightgrey
+- blue
+
+## Escaping underscores and hyphens
+
+Hyphens (`-`) are used to delimit individual fields in your shield request. To include a literal hyphen, use two hyphens (`--`):
+
+http://b.repl.ca/v1/really--cool-status-yellow.png ⇨ ![](http://b.repl.ca/v1/really--cool-status-yellow.png)
+
+Similarly, underscores (`_`) are used to indicated spaces. To include a literal underscore, use two underscores (`__`):
+ 
+http://b.repl.ca/v1/__private-method_name-lightgrey.png ⇨ ![](http://b.repl.ca/v1/__private-method_name-lightgrey.png)
+
+## URL Safe
+
+Buckler API requests are just HTTP GETs, so remember to URL encode!
+
+http://b.repl.ca/v1/uptime-99.99%25-yellowgreen.png ⇨ ![](http://b.repl.ca/v1/uptime-99.99%25-yellowgreen.png)
+
+# Try It Out
+
+Play around with the simple form on [b.repl.ca](http://buckler.repl.ca)
+
+# Thanks
+
+- Olivier Lacan for the [shields](https://github.com/olivierlacan/shields) repo
+- Steve Matteson for [Open Sans](http://opensans.com/)
