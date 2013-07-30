@@ -59,7 +59,7 @@ var (
 
 const (
 	h  = 18
-	op = 6
+	op = 4
 	ip = 4
 )
 
