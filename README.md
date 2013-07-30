@@ -26,15 +26,19 @@ Parts are separated by a hyphen. The request is suffixed by `.png` and prefixed 
 
 ## Valid colours
 
-- brightgreen
-- green
-- yellowgreen
-- yellow
-- orange
-- red
-- grey
-- lightgrey
-- blue
+- brightgreen ⇨ ![](http://b.repl.ca/v1/colour-brightgreen-brightgreen.png)
+- green ⇨ ![](http://b.repl.ca/v1/colour-green-green.png)
+- yellowgreen ⇨ ![](http://b.repl.ca/v1/colour-yellowgreen-yellowgreen.png)
+- yellow ⇨ ![](http://b.repl.ca/v1/colour-yellow-yellow.png)
+- orange ⇨ ![](http://b.repl.ca/v1/colour-orange-orange.png)
+- red ⇨ ![](http://b.repl.ca/v1/colour-red-red.png)
+- grey ⇨ ![](http://b.repl.ca/v1/colour-grey-grey.png)
+- lightgrey ⇨ ![](http://b.repl.ca/v1/colour-lightgrey-lightgrey.png)
+- blue ⇨ ![](http://b.repl.ca/v1/colour-blue-blue.png)
+
+### Grey?
+
+Don't worry; `gray` and `lightgray` work too.
 
 ## Escaping underscores and hyphens
 
