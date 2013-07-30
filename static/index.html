@@ -4,8 +4,8 @@
   </head>
   <body>
   <h1>⛨ Buckler ⛨</h1>
-    <img src="/v1/use-buckler-blue.png"><br/>
-    <img id='test' src="/v1/play-here-yellow.png">
+    <img src="/v1/use-buckler-blue.png"><br/><br/>
+    <img id='test' src="/v1/play-here-yellow.png"><br/><br/>
     <form onsubmit="return setTest()">
       <input type="text" id="v">
       <input type="text" id="s">
@@ -13,17 +13,17 @@
       <button>go</button>
     </form>
     <script>
-      function escape(s) {
+      function replace(s) {
         s = s.replace('_', '__');
         s = s.replace(' ', '_');
         s = s.replace('-', '--');
-	return s;
+        return escape(s);
       }
 
       function setTest() {
-        var v = escape(document.getElementById('v').value);
-        var s = escape(document.getElementById('s').value);
-        var c = escape(document.getElementById('c').value);
+        var v = replace(document.getElementById('v').value);
+        var s = replace(document.getElementById('s').value);
+        var c = replace(document.getElementById('c').value);
 
         var src = ['/v1/', v, '-', s, '-', c, '.png'].join('');
         document.getElementById('test').setAttribute('src', src);
