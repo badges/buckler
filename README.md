@@ -15,9 +15,9 @@ pregenerate them and host them on your own service, or run your own copy of Buck
 # API
 
 Buckler tries to make creating shields easy. Each shield request is a url that has three parts:
-- subject
-- status
-- colour
+- `subject`
+- `status`
+- `colour`
 
 Parts are separated by a hyphen. The request is suffixed by `.png` and prefixed with the Buckler host and API version, likely
 `b.repl.ca/v1/`. Requests will take the form: `http://b.repl.ca/v1/$SUBJECT-$STATUS-$COLOR.png`
