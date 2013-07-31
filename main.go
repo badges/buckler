@@ -15,11 +15,17 @@ func shift(s []string) ([]string, string) {
 	return s[1:], s[0]
 }
 
+func invalidRequest(w http.ResponseWriter, r *http.Request) {
+	log.Println("bad request", r.URL.String())
+	http.Error(w, "bad request", 400)
+}
+
 func buckle(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")
 
 	if len(parts) != 3 {
-		// error
+		invalidRequest(w, r)
+		return
 	}
 
 	imageName := wsReplacer.Replace(parts[2])
@@ -48,15 +54,20 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(newParts) != 3 {
-		// error
+		invalidRequest(w, r)
+		return
 	}
 
 	if !strings.HasSuffix(newParts[2], ".png") {
-		// error
+		invalidRequest(w, r)
+		return
 	}
 
-	c := Colors[newParts[2][0:len(newParts[2])-4]]
-	// validate
+	c, ok := Colors[newParts[2][0:len(newParts[2])-4]]
+	if !ok {
+		invalidRequest(w, r)
+		return
+	}
 
 	d := Data{newParts[0], newParts[1], c}
 	makePngShield(w, d)
