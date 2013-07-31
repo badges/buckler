@@ -5,7 +5,7 @@
 [![Get Hype](http://b.repl.ca/v1/GET-HYPE!-orange.png)](http://buckler.repl.ca)
 ![MIT License](http://b.repl.ca/v1/License-MIT-red.png)
 
-Buckler is [Shields](https://github.com/olivierlacan/shields) as a Service (Shaas, or alternatively, Badges as a Service)
+Buckler is [Shields](https://github.com/olivierlacan/shields) as a Service (ShaaS, or alternatively, Badges as a Service)
 for use in GitHub READMEs, or anywhere else. Use buckler with your favorite continuous integration tool, performance
 monitoring service API, or ridiculous in-joke to surface information.
 
