@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 var (
@@ -66,6 +67,12 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 	c, ok := Colors[newParts[2][0:len(newParts[2])-4]]
 	if !ok {
 		invalidRequest(w, r)
+		return
+	}
+
+	t, err := time.Parse(time.RFC1123, r.Header.Get("if-modified-since"))
+	if err == nil && !t.Before(lastModified) {
+		w.WriteHeader(304)
 		return
 	}
 
