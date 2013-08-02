@@ -101,7 +101,7 @@ func renderString(s string, c *freetype.Context) (image.Image, int) {
 	c.SetDst(dst)
 	c.SetClip(dst.Bounds())
 
-	c.SetSrc(&image.Uniform{shadow})
+	c.SetSrc(&image.Uniform{C: shadow})
 	pt := freetype.Pt(0, 13)
 	c.DrawString(s, pt)
 
@@ -141,10 +141,10 @@ func makePngShield(w io.Writer, d Data) {
 	draw.Draw(mask, r, edge, sr.Min, draw.Src)
 
 	img := image.NewRGBA(image.Rect(0, 0, imageWidth, h))
-	draw.Draw(img, img.Bounds(), &image.Uniform{d.Color}, image.ZP, draw.Src)
+	draw.Draw(img, img.Bounds(), &image.Uniform{C: d.Color}, image.ZP, draw.Src)
 
 	rect := image.Rect(0, 0, op+vw+ip, h)
-	draw.Draw(img, rect, &image.Uniform{Grey}, image.ZP, draw.Src)
+	draw.Draw(img, rect, &image.Uniform{C: Grey}, image.ZP, draw.Src)
 
 	dst := image.NewRGBA(image.Rect(0, 0, imageWidth, h))
 	draw.DrawMask(dst, dst.Bounds(), img, image.ZP, mask, image.ZP, draw.Over)
