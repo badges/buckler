@@ -10,6 +10,11 @@ import (
 
 var (
 	wsReplacer = strings.NewReplacer("__", "_", "_", " ")
+
+	// set last modifed to server startup. close enough to release.
+	lastModifiedStr = time.Now().Format(time.RFC1123)
+	lastModified, _ = time.Parse(time.RFC1123, lastModifiedStr)
+	oneYear         = time.Duration(8700) * time.Hour
 )
 
 func shift(s []string) ([]string, string) {
@@ -75,6 +80,10 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(304)
 		return
 	}
+
+	w.Header().Add("content-type", "image/png")
+	w.Header().Add("expires", time.Now().Add(oneYear).Format(time.RFC1123))
+	w.Header().Add("last-modified", lastModifiedStr)
 
 	d := Data{newParts[0], newParts[1], c}
 	makePngShield(w, d)

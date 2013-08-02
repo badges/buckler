@@ -5,12 +5,11 @@ import (
 	"image/color"
 	"image/draw"
 	"image/png"
+	"io"
 	"io/ioutil"
 	"log"
 	"math"
-	"net/http"
 	"os"
-	"time"
 
 	"code.google.com/p/freetype-go/freetype"
 	"code.google.com/p/freetype-go/freetype/raster"
@@ -56,11 +55,6 @@ var (
 	gradient image.Image
 	font     *truetype.Font
 	c        *freetype.Context
-
-	// set last modifed to server startup. close enough to release.
-	lastModifiedStr = time.Now().Format(time.RFC1123)
-	lastModified, _ = time.Parse(time.RFC1123, lastModifiedStr)
-	oneYear         = time.Duration(8700) * time.Hour
 )
 
 const (
@@ -119,11 +113,7 @@ func renderString(s string, c *freetype.Context) (image.Image, int) {
 	return dst, getTextOffset(pt)
 }
 
-func makePngShield(w http.ResponseWriter, d Data) {
-	w.Header().Add("content-type", "image/png")
-	w.Header().Add("expires", time.Now().Add(oneYear).Format(time.RFC1123))
-	w.Header().Add("last-modified", lastModifiedStr)
-
+func makePngShield(w io.Writer, d Data) {
 	// render text to determine how wide the image has to be
 	// we leave 6 pixels at the start and end, and 3 for each in the middle
 	v, vw := renderString(d.Vendor, c)
