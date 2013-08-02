@@ -9,7 +9,7 @@ Buckler is [Shields](https://github.com/olivierlacan/shields) as a Service (Shaa
 for use in GitHub READMEs, or anywhere else. Use buckler with your favorite continuous integration tool, performance
 monitoring service API, or ridiculous in-joke to surface information.
 
-Buckler is available hosted at [b.repl.ca](http://buckler.repl.ca). YOu may use the [API](#API) to generate shields at runtime,
+Buckler is available hosted at [b.repl.ca](http://buckler.repl.ca). You may use the [API](#API) to generate shields at runtime,
 pregenerate them and host them on your own service, or run your own copy of Buckler to protect important company secrets.
 
 # API
