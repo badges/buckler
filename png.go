@@ -94,7 +94,7 @@ func getTextOffset(pt raster.Point) int {
 	return int(math.Floor(float64(float32(pt.X)/256 + 0.5)))
 }
 
-func renderString(s string, c *freetype.Context) (image.Image, int) {
+func renderString(s string, c *freetype.Context) (*image.RGBA, int) {
 	estWidth := 8 * len(s)
 	dst := image.NewRGBA(image.Rect(0, 0, estWidth, h))
 
