@@ -76,8 +76,8 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	t, err := time.Parse(time.RFC1123, r.Header.Get("if-modified-since"))
-	if err == nil && !t.Before(lastModified) {
-		w.WriteHeader(304)
+	if err == nil && lastModified.Before(t.Add(1*time.Second)) {
+		w.WriteHeader(http.StatusNotModified)
 		return
 	}
 
