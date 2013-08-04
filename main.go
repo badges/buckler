@@ -12,7 +12,7 @@ var (
 	wsReplacer = strings.NewReplacer("__", "_", "_", " ")
 
 	// set last modifed to server startup. close enough to release.
-	lastModified = time.Now()
+	lastModified    = time.Now()
 	lastModifiedStr = lastModified.UTC().Format(http.TimeFormat)
 	oneYear         = time.Duration(8700) * time.Hour
 )
