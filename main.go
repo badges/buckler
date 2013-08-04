@@ -69,10 +69,14 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c, ok := Colors[newParts[2][0:len(newParts[2])-4]]
+	cp := newParts[2][0 : len(newParts[2])-4]
+	c, ok := Colors[cp]
 	if !ok {
-		invalidRequest(w, r)
-		return
+		c, ok = hexColor(cp)
+		if !ok {
+			invalidRequest(w, r)
+			return
+		}
 	}
 
 	t, err := time.Parse(time.RFC1123, r.Header.Get("if-modified-since"))

@@ -10,6 +10,7 @@ import (
 	"log"
 	"math"
 	"os"
+	"strconv"
 
 	"code.google.com/p/freetype-go/freetype"
 	"code.google.com/p/freetype-go/freetype/raster"
@@ -88,6 +89,22 @@ func init() {
 	c.SetDPI(72)
 	c.SetFont(font)
 	c.SetFontSize(10)
+}
+
+func hexColor(c string) (color.RGBA, bool) {
+	if len(c) != 6 {
+		return color.RGBA{}, false
+	}
+
+	r, rerr := strconv.ParseInt(c[0:2], 16, 16)
+	g, gerr := strconv.ParseInt(c[2:4], 16, 16)
+	b, berr := strconv.ParseInt(c[4:6], 16, 16)
+
+	if rerr != nil || gerr != nil || berr != nil {
+		return color.RGBA{}, false
+	}
+
+	return color.RGBA{uint8(r), uint8(g), uint8(b), 255}, true
 }
 
 func getTextOffset(pt raster.Point) int {
