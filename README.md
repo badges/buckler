@@ -28,7 +28,7 @@ Parts are separated by a hyphen. The request is suffixed by `.png` and prefixed 
 - http://b.repl.ca/v1/downloads-3.4K-blue.png ⇨ ![](http://b.repl.ca/v1/downloads-3.4K-blue.png)
 - http://b.repl.ca/v1/coverage-unknown-lightgrey.png ⇨ ![](http://b.repl.ca/v1/coverage-unknown-lightgrey.png)
 - http://b.repl.ca/v1/review-NACKED-red.png ⇨ ![](http://b.repl.ca/v1/review-NACKED-red.png)
-
+- http://b.repl.ca/v1/enterprise-ready-ff69b4.png ⇨ ![](http://b.repl.ca/v1/enterprise-ready-ff69b4.png)
 
 ## Valid colours
 
@@ -42,6 +42,10 @@ Parts are separated by a hyphen. The request is suffixed by `.png` and prefixed 
 - `lightgrey` ⇨ ![](http://b.repl.ca/v1/colour-lightgrey-lightgrey.png)
 - `blue` ⇨ ![](http://b.repl.ca/v1/colour-blue-blue.png)
 
+Six digit RGB hexidecimal colour values work as well:
+
+- `804000` - ![](http://b.repl.ca/v1/colour-brown-804000.png)
+
 ### Grey?
 
 Don't worry; `gray` and `lightgray` work too.
@@ -53,7 +57,7 @@ Hyphens (`-`) are used to delimit individual fields in your shield request. To i
 http://b.repl.ca/v1/really--cool-status-yellow.png ⇨ ![](http://b.repl.ca/v1/really--cool-status-yellow.png)
 
 Similarly, underscores (`_`) are used to indicated spaces. To include a literal underscore, use two underscores (`__`):
- 
+
 http://b.repl.ca/v1/__private-method_name-lightgrey.png ⇨ ![](http://b.repl.ca/v1/__private-method_name-lightgrey.png)
 
 ## URL Safe
