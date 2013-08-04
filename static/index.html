@@ -1,14 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
 <html>
   <head>
-    <title>⛨ Buckler ⛨</title>
+    <meta charset="utf-8">
+    <title>Buckler</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/favicon.png">
   </head>
   <body>
-  <h1>⛨ Buckler ⛨</h1>
+  <div class="container">
+  <div class="page-header">
+    <h1>⛨ Buckler ⛨</h1>
+  </div>
     <img src="/v1/use-buckler-blue.png"><br/><br/>
-    <img id='test' src="/v1/play-here-yellow.png"><br/><br/>
-    <form onsubmit="return setTest()">
-      <input type="text" id="v">
-      <input type="text" id="s">
+
+
+    <p class="lead">
+      <a href="https://github.com/jbowes/buckler">Buckler</a> is
+      <a href="https://github.com/olivierlacan/shields">Shields</a> as a
+      Service (ShaaS, or alternatively, Badges as a Service) for use in GitHub
+      READMEs, or anywhere else. Use buckler with your favorite continuous
+      integration tool, performance monitoring service API, or ridiculous
+      in-joke to surface information.
+    </p>
+
+    <br/>
+    <h2>Try it out</h2>
+    <hr>
+    <img id='test' src="/v1/play-here-yellow.png">
+    &nbsp;&nbsp;&nbsp;
+    <code id='markdown'>![play here](http://b.repl.ca/v1/play-here-yellow.png)</code>
+    <br/><br/>
+    <form class="form-inline" onsubmit="return setTest()">
+      <fieldset>
+      <input type="text" placeholder="Vendor" id="v" required>
+      <input type="text" placeholder="Status" id="s" required>
       <select id="c">
         <option value="brightgreen">brightgreen</option>
         <option value="green">green</option>
@@ -20,8 +47,19 @@
         <option value="lightgrey">lightgrey</option>
         <option value="grey">grey</option>
       </select>
-      <button>go</button>
+      <button type="submit" class="btn btn-primary">Go</button>
+      </fieldset>
     </form>
+
+    <br/>
+    <h2>API</h2>
+    <hr>
+    <p>A full up-to-date description of the API is available in the
+    <a href="https://github.com/jbowes/buckler/blob/master/README.md">README</a>
+    on GitHub.
+    </p>
+  </div> <!-- container -->
+
     <script>
       function replace(s) {
         s = s.replace('_', '__');
@@ -31,17 +69,22 @@
       }
 
       function setTest() {
-        var v = replace(document.getElementById('v').value);
-        var s = replace(document.getElementById('s').value);
+        var rv = document.getElementById('v').value;
+        var rs = document.getElementById('s').value;
+        var v = replace(rv);
+        var s = replace(rs);
         var c = replace(document.getElementById('c').value);
 
         var src = ['/v1/', v, '-', s, '-', c, '.png'].join('');
         document.getElementById('test').setAttribute('src', src);
+
+        var markdown = '![' + rv + ' ' + rs + '](http://b.repl.ca' + src + ')';
+        document.getElementById('markdown').innerHTML = markdown;
         return false;
       }
     </script>
 
-    <a href="https://github.com/jbowes/buckler"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+    <a href="https://github.com/jbowes/buckler"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
   </body>
 </html>
 

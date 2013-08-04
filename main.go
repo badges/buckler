@@ -93,10 +93,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "static/index.html")
 }
 
+func favicon(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "static/favicon.png")
+}
+
 func main() {
 	ip := os.Getenv("HOST")
 	port := os.Getenv("PORT")
 	http.HandleFunc("/v1/", buckle)
+	http.HandleFunc("/favicon.png", favicon)
 	http.HandleFunc("/", index)
 	log.Println("Listening on port", port)
 	http.ListenAndServe(ip+":"+port, nil)
