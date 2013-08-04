@@ -13,7 +13,19 @@ func TestRenderString(t *testing.T) {
 
 	r, _ := renderString("Vendor", c)
 	if !bytes.Equal(r.Pix, e) {
-		t.Error("Failure")
+		t.Error("make png shield 'use buckler blue' bytes not equal")
+	}
+}
+
+// simple regression test
+func TestMakePngShield(t *testing.T) {
+	i, _ := os.Open("test/use-buckler-blue.png")
+	e, _ := ioutil.ReadAll(i)
+
+	var b bytes.Buffer
+	makePngShield(&b, Data{"use", "buckler", Blue})
+	if !bytes.Equal(b.Bytes(), e) {
+		t.Error("render string 'Vendor' bytes not equal")
 	}
 }
 
