@@ -83,6 +83,7 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Add("content-type", "image/png")
 	w.Header().Add("expires", time.Now().Add(oneYear).Format(time.RFC1123))
+	w.Header().Add("cache-control", "public")
 	w.Header().Add("last-modified", lastModifiedStr)
 
 	d := Data{newParts[0], newParts[1], c}
