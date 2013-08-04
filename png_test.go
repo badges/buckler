@@ -23,3 +23,10 @@ func BenchmarkRenderString(b *testing.B) {
 		renderString("test string", c)
 	}
 }
+
+func BenchmarkMakePngShield(b *testing.B) {
+	d := Data{"test", "output", Blue}
+	for i := 0; i < b.N; i++ {
+		makePngShield(ioutil.Discard, d)
+	}
+}
