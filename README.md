@@ -30,7 +30,7 @@ Parts are separated by a hyphen. The request is suffixed by `.png` and prefixed 
 - http://b.repl.ca/v1/review-NACKED-red.png ⇨ ![](http://b.repl.ca/v1/review-NACKED-red.png)
 - http://b.repl.ca/v1/enterprise-ready-ff69b4.png ⇨ ![](http://b.repl.ca/v1/enterprise-ready-ff69b4.png)
 
-## Valid colours
+## Valid Colours
 
 - `brightgreen` ⇨ ![](http://b.repl.ca/v1/colour-brightgreen-brightgreen.png)
 - `green` ⇨ ![](http://b.repl.ca/v1/colour-green-green.png)
@@ -50,7 +50,7 @@ Six digit RGB hexidecimal colour values work as well:
 
 Don't worry; `gray` and `lightgray` work too.
 
-## Escaping underscores and hyphens
+## Escaping Underscores and Hyphens
 
 Hyphens (`-`) are used to delimit individual fields in your shield request. To include a literal hyphen, use two hyphens (`--`):
 
