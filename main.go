@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 	"os"
@@ -103,11 +104,41 @@ func favicon(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	ip := os.Getenv("HOST")
+	host := os.Getenv("HOST")
 	port := os.Getenv("PORT")
+
+	hostArg := flag.String("host", "*", "host ip address to bind to")
+	portArg := flag.String("port", "8080", "port to listen on")
+	flag.Parse()
+
+	hostSet := false
+	portSet := false
+	flag.Visit(func(f *flag.Flag) {
+		if f.Name == "host" {
+			hostSet = true
+		}
+
+		if f.Name == "port" {
+			portSet = true
+		}
+	})
+
+	if hostSet || host == "" {
+		host = *hostArg
+	}
+
+	if portSet || port == "" {
+		port = *portArg
+	}
+
+	if host == "*" {
+		host = ""
+	}
+
 	http.HandleFunc("/v1/", buckle)
 	http.HandleFunc("/favicon.png", favicon)
 	http.HandleFunc("/", index)
+
 	log.Println("Listening on port", port)
-	http.ListenAndServe(ip+":"+port, nil)
+	http.ListenAndServe(host+":"+port, nil)
 }
