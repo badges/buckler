@@ -65,22 +65,36 @@ const (
 )
 
 func init() {
-	fi, _ := os.Open("edge.png")
-	edge, _ = png.Decode(fi)
-	defer fi.Close()
-
-	fi, _ = os.Open("gradient.png")
-	gradient, _ = png.Decode(fi)
-	defer fi.Close()
-
-	fontBytes, err := ioutil.ReadFile("opensanssemibold.ttf")
+	fi, err := os.Open("data/edge.png")
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
+	}
+	defer fi.Close()
+
+	edge, err = png.Decode(fi)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fi, err = os.Open("data/gradient.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer fi.Close()
+
+	gradient, err = png.Decode(fi)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fontBytes, err := ioutil.ReadFile("data/opensanssemibold.ttf")
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	font, err = freetype.ParseFont(fontBytes)
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 
 	c = freetype.NewContext()
