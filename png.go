@@ -65,8 +65,6 @@ const (
 )
 
 func init() {
-	log.Println("Initializing png")
-
 	fi, _ := os.Open("edge.png")
 	edge, _ = png.Decode(fi)
 	defer fi.Close()
