@@ -71,6 +71,14 @@ http://b.repl.ca/v1/uptime-99.99%25-yellowgreen.png ⇨ ![](http://b.repl.ca/v1/
 
 Play around with the simple form on [b.repl.ca](http://b.repl.ca)
 
+# Installing
+
+```bash
+go get github.com/jbowes/buckler
+```
+
+Alternatively, `git clone` and `go build` to run from source.
+
 # Command Line
 
 Buckler also provides a command line interface:
