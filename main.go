@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"log"
 	"net/http"
@@ -27,15 +28,8 @@ func invalidRequest(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "bad request", 400)
 }
 
-func buckle(w http.ResponseWriter, r *http.Request) {
-	parts := strings.Split(r.URL.Path, "/")
-
-	if len(parts) != 3 {
-		invalidRequest(w, r)
-		return
-	}
-
-	imageName := wsReplacer.Replace(parts[2])
+func parseFileName(name string) (d Data, err error) {
+	imageName := wsReplacer.Replace(name)
 	imageParts := strings.Split(imageName, "-")
 
 	newParts := []string{}
@@ -61,12 +55,12 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(newParts) != 3 {
-		invalidRequest(w, r)
+		err = errors.New("Invalid file name")
 		return
 	}
 
 	if !strings.HasSuffix(newParts[2], ".png") {
-		invalidRequest(w, r)
+		err = errors.New("Unknown file type")
 		return
 	}
 
@@ -75,9 +69,27 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 	if !ok {
 		c, ok = hexColor(cp)
 		if !ok {
-			invalidRequest(w, r)
+			err = errors.New("Unknown colour")
 			return
 		}
+	}
+
+	d = Data{newParts[0], newParts[1], c}
+	return
+}
+
+func buckle(w http.ResponseWriter, r *http.Request) {
+	parts := strings.Split(r.URL.Path, "/")
+
+	if len(parts) != 3 {
+		invalidRequest(w, r)
+		return
+	}
+
+	d, err := parseFileName(parts[2])
+	if err != nil {
+		invalidRequest(w, r)
+		return
 	}
 
 	t, err := time.Parse(time.RFC1123, r.Header.Get("if-modified-since"))
@@ -91,7 +103,6 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("cache-control", "public")
 	w.Header().Add("last-modified", lastModifiedStr)
 
-	d := Data{newParts[0], newParts[1], c}
 	makePngShield(w, d)
 }
 
@@ -133,6 +144,25 @@ func main() {
 
 	if host == "*" {
 		host = ""
+	}
+
+	// command line image generation
+	args := flag.Args()
+	if len(args) > 0 {
+		for i := range args {
+			name := args[i]
+			d, err := parseFileName(name)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			f, err := os.Create(name)
+			if err != nil {
+				log.Fatal(err)
+			}
+			makePngShield(f, d)
+		}
+		return
 	}
 
 	http.HandleFunc("/v1/", buckle)
