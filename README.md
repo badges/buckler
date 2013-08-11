@@ -4,6 +4,7 @@
 [![Buckler Shield](http://b.repl.ca/v1/use-buckler-blue.png)](http://buckler.repl.ca)
 [![Get Hype](http://b.repl.ca/v1/GET-HYPE!-orange.png)](http://buckler.repl.ca)
 [![MIT License](http://b.repl.ca/v1/License-MIT-red.png)](LICENSE)
+[![CLI interface](http://b.repl.ca/v1/command-line-blue.png)](#command-line)
 
 Buckler is [Shields](https://github.com/olivierlacan/shields) as a Service (ShaaS, or alternatively, Badges as a Service)
 for use in GitHub READMEs, or anywhere else. Use buckler with your favorite continuous integration tool, performance
@@ -68,7 +69,25 @@ http://b.repl.ca/v1/uptime-99.99%25-yellowgreen.png ⇨ ![](http://b.repl.ca/v1/
 
 # Try It Out
 
-Play around with the simple form on [b.repl.ca](http://buckler.repl.ca)
+Play around with the simple form on [b.repl.ca](http://b.repl.ca)
+
+# Command Line
+
+Buckler also provides a command line interface:
+
+```bash
+# writes to build-passing-brightgreen.png
+./buckler -v build -s passing -c brightgreen
+
+# writes to my-custom-filename.png
+./buckler -v build -s passing -c green my-custom-filename.png
+
+# writes to standard out
+./buckler -v license -s MIT -c blue -
+
+# writes 2 shields
+./buckler build-passing-brightgreen.png license-MIT-blue.png
+```
 
 # Thanks
 
