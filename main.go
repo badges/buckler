@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -112,6 +113,64 @@ func favicon(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "static/favicon.png")
 }
 
+func fatal(msg string) {
+	fmt.Println(msg)
+	os.Exit(1)
+}
+
+func cliMode(vendor string, status string, color string, args []string) {
+	// if any of vendor, status or color is given, all must be
+	if vendor != "" || status != "" || color != "" && !(vendor != "" && status != "" && color != "") {
+		fatal("You must specify all of vendor, status, and color")
+	}
+
+	if vendor != "" {
+		c, err := getColor(color)
+		if err != nil {
+			fatal("Invalid color: " + color)
+		}
+		d := Data{vendor, status, c}
+
+		// XXX could escape here
+		name := vendor + "-" + status + "-" + color + ".png"
+
+		if len(args) > 1 {
+			fatal("You can only specify one output file name")
+		}
+
+		if len(args) == 1 {
+			name = args[0]
+		}
+
+		// default to standard out
+		f := os.Stdout
+		if name != "-" {
+			f, err = os.Create(name)
+			if err != nil {
+				fatal("Unable to create file: " + name)
+			}
+		}
+
+		makePngShield(f, d)
+		return
+	}
+
+	// generate based on command line file names
+	for i := range args {
+		name := args[i]
+		d, err := parseFileName(name)
+		if err != nil {
+			fatal(err.Error())
+		}
+
+		f, err := os.Create(name)
+		if err != nil {
+			fatal(err.Error())
+		}
+		makePngShield(f, d)
+	}
+}
+
 func main() {
 	hostEnv := os.Getenv("HOST")
 	portEnv := os.Getenv("PORT")
@@ -136,59 +195,17 @@ func main() {
 	color := goopt.String([]string{"-c", "--color", "--colour"}, "", "color for cli generation")
 	goopt.Parse(nil)
 
-	if *host == "*" {
-		*host = ""
-	}
-
 	args := goopt.Args
 
-	if *vendor != "" {
-		c, err := getColor(*color)
-		if err != nil {
-			log.Fatal(err)
-		}
-		d := Data{*vendor, *status, c}
-
-		// XXX could escape here
-		name := *vendor + "-" + *status + "-" + *color + ".png"
-
-		if len(args) > 1 {
-			log.Fatal("You can only specify one output file name")
-		}
-
-		if len(args) == 1 {
-			name = args[0]
-		}
-
-		// default to standard out
-		f := os.Stdout
-		if name != "-" {
-			f, err = os.Create(name)
-			if err != nil {
-				log.Fatal(err)
-			}
-		}
-
-		makePngShield(f, d)
+	// if any of the cli args are given, or positional args remain, assume cli
+	// mode.
+	if len(args) > 0 || *vendor != "" || *status != "" || *color != "" {
+		cliMode(*vendor, *status, *color, args)
 		return
 	}
-
-	// command line image generation
-	if len(args) > 0 {
-		for i := range args {
-			name := args[i]
-			d, err := parseFileName(name)
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			f, err := os.Create(name)
-			if err != nil {
-				log.Fatal(err)
-			}
-			makePngShield(f, d)
-		}
-		return
+	// normalize for http serving
+	if *host == "*" {
+		*host = ""
 	}
 
 	http.HandleFunc("/v1/", buckle)
