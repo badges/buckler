@@ -65,13 +65,9 @@ func parseFileName(name string) (d Data, err error) {
 	}
 
 	cp := newParts[2][0 : len(newParts[2])-4]
-	c, ok := Colors[cp]
-	if !ok {
-		c, ok = hexColor(cp)
-		if !ok {
-			err = errors.New("Unknown colour")
-			return
-		}
+	c, err := getColor(cp)
+	if err != nil {
+		return
 	}
 
 	d = Data{newParts[0], newParts[1], c}
@@ -118,8 +114,14 @@ func main() {
 	host := os.Getenv("HOST")
 	port := os.Getenv("PORT")
 
+	// server mode flags
 	hostArg := flag.String("host", "*", "host ip address to bind to")
 	portArg := flag.String("port", "8080", "port to listen on")
+
+	// cli mode
+	vendorArg := flag.String("vendor", "", "vendor for cli generation")
+	statusArg := flag.String("status", "", "status for cli generation")
+	colorArg := flag.String("color", "", "color for cli generation")
 	flag.Parse()
 
 	hostSet := false
@@ -146,8 +148,39 @@ func main() {
 		host = ""
 	}
 
-	// command line image generation
 	args := flag.Args()
+
+	if *vendorArg != "" {
+		c, err := getColor(*colorArg)
+		if err != nil {
+			log.Fatal(err)
+		}
+		d := Data{*vendorArg, *statusArg, c}
+
+		// XXX could escape here
+		name := *vendorArg + "-" + *statusArg + "-" + *colorArg + ".png"
+
+		if len(args) > 1 {
+			log.Fatal("You can only specify one output file name")
+		}
+
+		if len(args) == 1 {
+			name = args[0]
+		}
+
+		f := os.Stdout
+		if name != "-" {
+			f, err = os.Create(name)
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+
+		makePngShield(f, d)
+		return
+	}
+
+	// command line image generation
 	if len(args) > 0 {
 		for i := range args {
 			name := args[i]

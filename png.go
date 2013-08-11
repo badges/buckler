@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"image"
 	"image/color"
 	"image/draw"
@@ -117,6 +118,19 @@ func hexColor(c string) (color.RGBA, bool) {
 	}
 
 	return color.RGBA{uint8(r), uint8(g), uint8(b), 255}, true
+}
+
+func getColor(cs string) (c color.RGBA, err error) {
+	c, ok := Colors[cs]
+	if !ok {
+		c, ok = hexColor(cs)
+		if !ok {
+			err = errors.New("Unknown colour")
+			return
+		}
+	}
+
+	return
 }
 
 func getTextOffset(pt raster.Point) int {
