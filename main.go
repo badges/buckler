@@ -16,6 +16,7 @@ import (
 
 var (
 	wsReplacer = strings.NewReplacer("__", "_", "_", " ")
+	revWsReplacer = strings.NewReplacer(" ", "_", "_", "__", "-", "--")
 
 	// set last modifed to server startup. close enough to release.
 	lastModified    = time.Now()
@@ -137,8 +138,8 @@ func cliMode(vendor string, status string, color string, args []string) {
 		}
 		d := Data{vendor, status, c}
 
-		// XXX could escape here
-		name := vendor + "-" + status + "-" + color + ".png"
+		name := fmt.Sprintf("%s-%s-%s.png", revWsReplacer.Replace(vendor),
+			revWsReplacer.Replace(status), color);
 
 		if len(args) > 1 {
 			fatal("You can only specify one output file name")
