@@ -85,16 +85,16 @@ Buckler also provides a command line interface:
 
 ```bash
 # writes to build-passing-brightgreen.png
-./buckler -v build -s passing -c brightgreen
+buckler -v build -s passing -c brightgreen
 
 # writes to my-custom-filename.png
-./buckler -v build -s passing -c green my-custom-filename.png
+buckler -v build -s passing -c green my-custom-filename.png
 
 # writes to standard out
-./buckler -v license -s MIT -c blue -
+buckler -v license -s MIT -c blue -
 
 # writes 2 shields
-./buckler build-passing-brightgreen.png license-MIT-blue.png
+buckler build-passing-brightgreen.png license-MIT-blue.png
 ```
 
 # Thanks
