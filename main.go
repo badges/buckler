@@ -2,12 +2,14 @@ package main
 
 import (
 	"errors"
-	"flag"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
+
+	"github.com/droundy/goopt"
 )
 
 var (
@@ -111,54 +113,44 @@ func favicon(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	host := os.Getenv("HOST")
-	port := os.Getenv("PORT")
+	hostEnv := os.Getenv("HOST")
+	portEnv := os.Getenv("PORT")
 
-	// server mode flags
-	hostArg := flag.String("host", "*", "host ip address to bind to")
-	portArg := flag.String("port", "8080", "port to listen on")
+	// default to environment variable values (changes the help string :( )
+	if hostEnv == "" {
+		hostEnv = "*"
+	}
+
+	p := 8080
+	if portEnv != "" {
+		p, _ = strconv.Atoi(portEnv)
+	}
+
+	// server mode options
+	host := goopt.String([]string{"-h", "--host"}, hostEnv, "host ip address to bind to")
+	port := goopt.Int([]string{"-p", "--port"}, p, "port to listen on")
 
 	// cli mode
-	vendorArg := flag.String("vendor", "", "vendor for cli generation")
-	statusArg := flag.String("status", "", "status for cli generation")
-	colorArg := flag.String("color", "", "color for cli generation")
-	flag.Parse()
+	vendor := goopt.String([]string{"-v", "--vendor"}, "", "vendor for cli generation")
+	status := goopt.String([]string{"-s", "--status"}, "", "status for cli generation")
+	color := goopt.String([]string{"-c", "--color", "--colour"}, "", "color for cli generation")
+	goopt.Parse(nil)
 
-	hostSet := false
-	portSet := false
-	flag.Visit(func(f *flag.Flag) {
-		if f.Name == "host" {
-			hostSet = true
-		}
-
-		if f.Name == "port" {
-			portSet = true
-		}
-	})
-
-	if hostSet || host == "" {
-		host = *hostArg
+	if *host == "*" {
+		*host = ""
 	}
 
-	if portSet || port == "" {
-		port = *portArg
-	}
+	args := goopt.Args
 
-	if host == "*" {
-		host = ""
-	}
-
-	args := flag.Args()
-
-	if *vendorArg != "" {
-		c, err := getColor(*colorArg)
+	if *vendor != "" {
+		c, err := getColor(*color)
 		if err != nil {
 			log.Fatal(err)
 		}
-		d := Data{*vendorArg, *statusArg, c}
+		d := Data{*vendor, *status, c}
 
 		// XXX could escape here
-		name := *vendorArg + "-" + *statusArg + "-" + *colorArg + ".png"
+		name := *vendor + "-" + *status + "-" + *color + ".png"
 
 		if len(args) > 1 {
 			log.Fatal("You can only specify one output file name")
@@ -168,6 +160,7 @@ func main() {
 			name = args[0]
 		}
 
+		// default to standard out
 		f := os.Stdout
 		if name != "-" {
 			f, err = os.Create(name)
@@ -202,6 +195,6 @@ func main() {
 	http.HandleFunc("/favicon.png", favicon)
 	http.HandleFunc("/", index)
 
-	log.Println("Listening on port", port)
-	http.ListenAndServe(host+":"+port, nil)
+	log.Println("Listening on port", *port)
+	http.ListenAndServe(*host+":"+strconv.Itoa(*port), nil)
 }
