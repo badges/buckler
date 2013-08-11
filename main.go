@@ -171,6 +171,14 @@ func cliMode(vendor string, status string, color string, args []string) {
 	}
 }
 
+func usage() string {
+	u := `Usage: %s [-h HOST] [-p PORT]
+       %s [-v VENDOR -s STATUS -c COLOR] <FILENAME>
+
+%s`
+	return fmt.Sprintf(u, os.Args[0], os.Args[0], goopt.Help())
+}
+
 func main() {
 	hostEnv := os.Getenv("HOST")
 	portEnv := os.Getenv("PORT")
@@ -184,6 +192,8 @@ func main() {
 	if portEnv != "" {
 		p, _ = strconv.Atoi(portEnv)
 	}
+
+	goopt.Usage = usage
 
 	// server mode options
 	host := goopt.String([]string{"-h", "--host"}, hostEnv, "host ip address to bind to")
