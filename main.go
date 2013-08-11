@@ -120,7 +120,8 @@ func fatal(msg string) {
 
 func cliMode(vendor string, status string, color string, args []string) {
 	// if any of vendor, status or color is given, all must be
-	if vendor != "" || status != "" || color != "" && !(vendor != "" && status != "" && color != "") {
+	if (vendor != "" || status != "" || color != "") &&
+		!(vendor != "" && status != "" && color != "") {
 		fatal("You must specify all of vendor, status, and color")
 	}
 
