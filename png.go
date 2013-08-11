@@ -11,11 +11,11 @@ import (
 	"log"
 	"math"
 	"os"
+	"path/filepath"
 	"strconv"
 
 	"code.google.com/p/freetype-go/freetype"
 	"code.google.com/p/freetype-go/freetype/raster"
-	"code.google.com/p/freetype-go/freetype/truetype"
 )
 
 type Data struct {
@@ -55,7 +55,6 @@ var (
 
 	edge     image.Image
 	gradient image.Image
-	font     *truetype.Font
 	c        *freetype.Context
 )
 
@@ -66,7 +65,8 @@ const (
 )
 
 func init() {
-	fi, err := os.Open("data/edge.png")
+	_, dataPath := resourcePaths()
+	fi, err := os.Open(filepath.Join(dataPath, "edge.png"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -77,7 +77,7 @@ func init() {
 		log.Fatal(err)
 	}
 
-	fi, err = os.Open("data/gradient.png")
+	fi, err = os.Open(filepath.Join(dataPath, "gradient.png"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -88,12 +88,12 @@ func init() {
 		log.Fatal(err)
 	}
 
-	fontBytes, err := ioutil.ReadFile("data/opensanssemibold.ttf")
+	fontBytes, err := ioutil.ReadFile(filepath.Join(dataPath, "opensanssemibold.ttf"))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	font, err = freetype.ParseFont(fontBytes)
+	font, err := freetype.ParseFont(fontBytes)
 	if err != nil {
 		log.Fatal(err)
 	}

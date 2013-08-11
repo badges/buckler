@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -20,6 +21,8 @@ var (
 	lastModified    = time.Now()
 	lastModifiedStr = lastModified.UTC().Format(http.TimeFormat)
 	oneYear         = time.Duration(8700) * time.Hour
+
+	staticPath, _ = resourcePaths()
 )
 
 func shift(s []string) ([]string, string) {
@@ -105,12 +108,14 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 	makePngShield(w, d)
 }
 
+const basePkg = "github.com/jbowes/buckler"
+
 func index(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "static/index.html")
+	http.ServeFile(w, r, filepath.Join(staticPath, "index.html"))
 }
 
 func favicon(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "static/favicon.png")
+	http.ServeFile(w, r, filepath.Join(staticPath, "favicon.png"))
 }
 
 func fatal(msg string) {
