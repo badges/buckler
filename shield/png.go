@@ -1,4 +1,4 @@
-package main
+package shield
 
 import (
 	"errors"
@@ -64,8 +64,7 @@ const (
 	ip = 4
 )
 
-func init() {
-	_, dataPath := resourcePaths()
+func Init(dataPath string) {
 	fi, err := os.Open(filepath.Join(dataPath, "edge.png"))
 	if err != nil {
 		log.Fatal(err)
@@ -120,7 +119,7 @@ func hexColor(c string) (color.RGBA, bool) {
 	return color.RGBA{uint8(r), uint8(g), uint8(b), 255}, true
 }
 
-func getColor(cs string) (c color.RGBA, err error) {
+func GetColor(cs string) (c color.RGBA, err error) {
 	c, ok := Colors[cs]
 	if !ok {
 		c, ok = hexColor(cs)
@@ -177,7 +176,7 @@ func buildMask(mask *image.RGBA, imageWidth int, tmpl image.Image, imgOp draw.Op
 	draw.Draw(mask, r, tmpl, sr.Min, imgOp)
 }
 
-func makePngShield(w io.Writer, d Data) {
+func PNG(w io.Writer, d Data) {
 	// render text to determine how wide the image has to be
 	// we leave 6 pixels at the start and end, and 3 for each in the middle
 	v, vw := renderString(d.Vendor, c)
