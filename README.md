@@ -1,6 +1,6 @@
 # ⛨ Buckler ⛨
 
-[![Build Status](https://travis-ci.org/jbowes/buckler.png)](https://travis-ci.org/jbowes/buckler)
+[![Build Status](https://travis-ci.org/gittip/img.shields.io.png)](https://travis-ci.org/gittip/img.shields.io)
 [![Buckler Shield](http://b.repl.ca/v1/use-buckler-blue.png)](http://buckler.repl.ca)
 [![Get Hype](http://b.repl.ca/v1/GET-HYPE!-orange.png)](http://buckler.repl.ca)
 [![MIT License](http://b.repl.ca/v1/License-MIT-red.png)](LICENSE)
@@ -74,7 +74,7 @@ Play around with the simple form on [b.repl.ca](http://b.repl.ca)
 # Installing
 
 ```bash
-go get github.com/jbowes/buckler
+go get github.com/gittip/img.shields.io
 ```
 
 Alternatively, `git clone` and `go build` to run from source.

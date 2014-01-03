@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	wsReplacer = strings.NewReplacer("__", "_", "_", " ")
+	wsReplacer    = strings.NewReplacer("__", "_", "_", " ")
 	revWsReplacer = strings.NewReplacer(" ", "_", "_", "__", "-", "--")
 
 	// set last modifed to server startup. close enough to release.
@@ -109,7 +109,7 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 	makePngShield(w, d)
 }
 
-const basePkg = "github.com/jbowes/buckler"
+const basePkg = "github.com/gittip/img.shields.io"
 
 func index(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filepath.Join(staticPath, "index.html"))
@@ -139,7 +139,7 @@ func cliMode(vendor string, status string, color string, args []string) {
 		d := Data{vendor, status, c}
 
 		name := fmt.Sprintf("%s-%s-%s.png", revWsReplacer.Replace(vendor),
-			revWsReplacer.Replace(status), color);
+			revWsReplacer.Replace(status), color)
 
 		if len(args) > 1 {
 			fatal("You can only specify one output file name")
