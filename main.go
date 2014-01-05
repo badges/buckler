@@ -218,7 +218,7 @@ func main() {
 
 	args := goopt.Args
 
-	shield.Init(*dataDir)
+	shield.LoadResources(*dataDir)
 
 	// if any of the cli args are given, or positional args remain, assume cli
 	// mode.
