@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	Init("../data")
+	LoadResources("../data")
 }
 
 func TestRenderString(t *testing.T) {

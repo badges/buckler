@@ -64,7 +64,7 @@ const (
 	ip = 4
 )
 
-func Init(dataPath string) {
+func LoadResources(dataPath string) {
 	fi, err := os.Open(filepath.Join(dataPath, "edge.png"))
 	if err != nil {
 		log.Fatal(err)
