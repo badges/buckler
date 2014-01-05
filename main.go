@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"./shield"
 	"github.com/droundy/goopt"
+	"github.com/gittip/img.shields.io/shield"
 )
 
 var (
