@@ -12,8 +12,15 @@ func init() {
 }
 
 func TestRenderString(t *testing.T) {
-	i, _ := os.Open("test/vendor.data")
-	e, _ := ioutil.ReadAll(i)
+	i, err := os.Open("testdata/vendor.data")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	e, err := ioutil.ReadAll(i)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	r, _ := renderString("Vendor", c)
 	if !bytes.Equal(r.Pix, e) {
@@ -23,8 +30,15 @@ func TestRenderString(t *testing.T) {
 
 // simple regression test
 func TestPNG(t *testing.T) {
-	i, _ := os.Open("test/use-buckler-blue.png")
-	e, _ := ioutil.ReadAll(i)
+	i, err := os.Open("testdata/use-buckler-blue.png")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	e, err := ioutil.ReadAll(i)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	var b bytes.Buffer
 	PNG(&b, Data{"use", "buckler", Blue})
