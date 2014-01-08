@@ -109,7 +109,7 @@ func buckle(w http.ResponseWriter, r *http.Request) {
 	makePngShield(w, d)
 }
 
-const basePkg = "github.com/gittip/img.shields.io"
+const basePkg = "github.com/badges/buckler"
 
 func index(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filepath.Join(staticPath, "index.html"))

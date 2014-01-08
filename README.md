@@ -1,12 +1,12 @@
 # ⛨ Buckler ⛨
 
-[![Build Status](https://travis-ci.org/gittip/img.shields.io.png)](https://travis-ci.org/gittip/img.shields.io)
+[![Build Status](https://travis-ci.org/badges/buckler.png)](https://travis-ci.org/badges/buckler)
 [![Buckler Shield](http://b.repl.ca/v1/use-buckler-blue.png)](http://buckler.repl.ca)
 [![Get Hype](http://b.repl.ca/v1/GET-HYPE!-orange.png)](http://buckler.repl.ca)
 [![MIT License](http://b.repl.ca/v1/License-MIT-red.png)](LICENSE)
 [![CLI interface](http://b.repl.ca/v1/command-line-blue.png)](#command-line)
 
-Buckler is [Shields](https://github.com/olivierlacan/shields) as a Service (ShaaS, or alternatively, Badges as a Service)
+Buckler is [Shields](https://github.com/badges/shields) as a Service (ShaaS, or alternatively, Badges as a Service)
 for use in GitHub READMEs, or anywhere else. Use buckler with your favorite continuous integration tool, performance
 monitoring service API, or ridiculous in-joke to surface information.
 
@@ -74,7 +74,7 @@ Play around with the simple form on [b.repl.ca](http://b.repl.ca)
 # Installing
 
 ```bash
-go get github.com/gittip/img.shields.io
+go get github.com/badges/buckler
 ```
 
 Alternatively, `git clone` and `go build` to run from source.
@@ -99,5 +99,5 @@ buckler build-passing-brightgreen.png license-MIT-blue.png
 
 # Thanks
 
-- Olivier Lacan for the [shields](https://github.com/olivierlacan/shields) repo
+- Olivier Lacan for the [shields](https://github.com/badges/shields) repo
 - Steve Matteson for [Open Sans](http://opensans.com/)
