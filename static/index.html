@@ -67,11 +67,11 @@
         var c = document.getElementById('c').value;
         var hexInput = document.getElementById('cc');
         if (c === 'custom') {
-          hexInput.setAttribute('required');
+          hexInput.setAttribute('required',true);
           hexInput.removeAttribute('disabled');
         } else {
           hexInput.removeAttribute('required');
-          hexInput.setAttribute('disabled');
+          hexInput.setAttribute('disabled',true);
         }
       }
       function replace(s) {
