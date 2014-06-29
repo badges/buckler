@@ -3,3 +3,4 @@ go: 1.2
 
 script:
  - go test -v ./...
+ - go run main.go --vendor=foo --status=bar --color=blue /dev/null

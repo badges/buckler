@@ -1,4 +1,4 @@
-package main
+package shield
 
 import (
 	"bytes"
@@ -7,9 +7,20 @@ import (
 	"testing"
 )
 
+func init() {
+	LoadResources("../data")
+}
+
 func TestRenderString(t *testing.T) {
-	i, _ := os.Open("test/vendor.data")
-	e, _ := ioutil.ReadAll(i)
+	i, err := os.Open("testdata/vendor.data")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	e, err := ioutil.ReadAll(i)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	r, _ := renderString("Vendor", c)
 	if !bytes.Equal(r.Pix, e) {
@@ -18,12 +29,19 @@ func TestRenderString(t *testing.T) {
 }
 
 // simple regression test
-func TestMakePngShield(t *testing.T) {
-	i, _ := os.Open("test/use-buckler-blue.png")
-	e, _ := ioutil.ReadAll(i)
+func TestPNG(t *testing.T) {
+	i, err := os.Open("testdata/use-buckler-blue.png")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	e, err := ioutil.ReadAll(i)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	var b bytes.Buffer
-	makePngShield(&b, Data{"use", "buckler", Blue})
+	PNG(&b, Data{"use", "buckler", Blue})
 	if !bytes.Equal(b.Bytes(), e) {
 		t.Error("render string 'Vendor' bytes not equal")
 	}
@@ -36,9 +54,9 @@ func BenchmarkRenderString(b *testing.B) {
 	}
 }
 
-func BenchmarkMakePngShield(b *testing.B) {
+func BenchmarkPNG(b *testing.B) {
 	d := Data{"test", "output", Blue}
 	for i := 0; i < b.N; i++ {
-		makePngShield(ioutil.Discard, d)
+		PNG(ioutil.Discard, d)
 	}
 }
